@@ -15,8 +15,13 @@
                 "Access-Control-Allow-Origin": "*",
                 "Access-Control-Allow-Methods": "POST, OPTIONS",
                 "Access-Control-Allow-Headers": "Content-Type, Authorization",
-                "Access-Control-Allow-Credentials": "true"
-            }
+                "Access-Control-Allow-Credentials": "true",
+                "Access-Control-Max-Age": "86400"
+            },
+            "continue": true
+        },
+        {
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",
@@ -26,6 +31,7 @@
     "env": {
         "PYTHONPATH": ".",
         "VERCEL_FORCE_NO_BUILD_CACHE": "1",
-        "VERCEL_FORCE_NO_SSO": "1"
+        "VERCEL_FORCE_NO_SSO": "1",
+        "VERCEL_FORCE_DISABLE_AUTH": "1"
     }
 } 

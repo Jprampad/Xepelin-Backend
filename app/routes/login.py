@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, HTTPException, status, Response
 from ..utils.auth import authenticate_user, create_access_token
 from ..models.auth_models import Token, LoginRequest
 from pydantic import Field
@@ -47,6 +47,7 @@ async def login(credentials: LoginRequest):
     - **401**: Credenciales inválidas
     - **422**: Error de validación en los datos de entrada
     """
+    response.headers["Access-Control-Allow-Origin"] = "*"
     user = authenticate_user(credentials.username, credentials.password)
     if not user:
         raise HTTPException(
