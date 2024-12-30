@@ -11,6 +11,7 @@ with open(docs_path) as f:
     docs = json.load(f)
 
 router = APIRouter(
+    prefix="/api",
     tags=["Autenticación"],
     responses={401: {"description": "No autorizado"}}
 )

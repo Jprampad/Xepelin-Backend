@@ -19,7 +19,7 @@ with open('app/docs/documentacion.json') as f:
     docs = json.load(f)
 
 router = APIRouter(
-    prefix="/tasas",
+    prefix="api/tasas",
     tags=["Tasas"],
     responses={401: {"description": "No autorizado"}}
 )
