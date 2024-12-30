@@ -12,13 +12,13 @@ def create_app():
     app = FastAPI(
         title="Xepelin Backend API",
         description="API para gestión de tasas",
-        version="1.0.0"
+        version="1.0.0",
+        docs_url="/docs",
+        openapi_url="/openapi.json"
     )
     
     # Configuración CORS
-    origins = os.getenv('CORS_ORIGINS', '["*"]')
-    if isinstance(origins, str):
-        origins = eval(origins)  # Convierte el string a lista
+    origins = os.getenv('CORS_ORIGINS', '*').split(',')
     
     app.add_middleware(
         CORSMiddleware,
@@ -31,8 +31,8 @@ def create_app():
     # Agregar manejador de excepciones
     add_validation_exception_handler(app)
     
-    # Agregar prefijo /api a todas las rutas
-    app.include_router(login_router, prefix="/api")
-    app.include_router(tasa_router, prefix="/api")
+    # Agregar routers sin el prefijo /api (ya que se maneja en vercel.json)
+    app.include_router(login_router)
+    app.include_router(tasa_router)
     
     return app
