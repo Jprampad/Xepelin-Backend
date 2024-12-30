@@ -1,5 +1,6 @@
 {
   "projectId": "xepelin-back",
+  "name": "Xepelin Back",
   "orgId": "tu-org-id",
   "settings": {
     "framework": null,
