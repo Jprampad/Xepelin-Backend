@@ -28,20 +28,6 @@ async def login(credentials: LoginRequest, response: Response):
 
     Este endpoint verifica las credenciales del usuario y, si son válidas,
     genera un token JWT para autenticación posterior.
-
-    Parameters:
-    - **credentials**: Objeto LoginRequest con:
-        - username (str): Email del usuario
-        - password (str): Contraseña del usuario
-
-    Returns:
-    - **LoginResponse**: Objeto con:
-        - access_token (str): Token JWT para autenticación
-        - token_type (str): Tipo de token (siempre "bearer")
-
-    Raises:
-    - **401**: Credenciales inválidas
-    - **422**: Error de validación en los datos de entrada
     """
     user = authenticate_user(credentials.username, credentials.password)
     if not user:
