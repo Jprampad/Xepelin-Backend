@@ -150,10 +150,10 @@
     },
     "new": {
       "200": {
-        "description": "Tasa agregada exitosamente",
+        "description": "Registro agregado exitosamente",
         "content": {
           "application/json": {
-            "example": {"message": "Tasa agregada correctamente"}
+            "example": {"message": "Registro agregado correctamente"}
           }
         }
       },
