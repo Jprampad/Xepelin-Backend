@@ -80,17 +80,6 @@ async def get_tasas(current_user: str = Depends(get_current_user)):
     emails con formato válido (debe incluir @ y dominio con punto),
     requiere autenticación mediante token JWT.
 
-    Returns:
-    - **List[TasaResponse]**: Lista de objetos Tasa con:
-        - idOp (int): ID de la operación
-        - tasa (float): Valor de la tasa
-        - email (str): Email asociado (solo emails con formato válido)
-
-    Raises:
-    - **401**: Token inválido o expirado
-    - **404**: No se encontraron tasas o no hay tasas con emails válidos
-    - **500**: Error interno del servidor
-
     Note:
     - Las tasas con emails inválidos son automáticamente filtradas de la respuesta
     - Un email válido debe contener @ y al menos un punto en el dominio
@@ -130,35 +119,11 @@ async def crear_tasa(
     current_user: str = Depends(get_current_user)
 ):
     """
-    Agrega una nueva tasa a Google Sheets.
-
-    Parameters:
-    - **tasa**: Objeto NuevaTasa con:
-        - idOp (int): ID de la operación (debe ser único y positivo)
-        - tasa (float): Valor de la tasa (debe ser positivo)
-        - email (str): Email válido
-
-    Returns:
-    - **dict**: Mensaje de éxito indicando que la tasa fue agregada correctamente
-
-    Raises:
-    - **400 Bad Request**:
-        - ID de operación ya existe en la base de datos
-        - ID de operación no es positivo
-        - Tasa no es un número decimal positivo
-        - Email no tiene un formato válido
-    - **401 Unauthorized**:
-        - Token JWT no proporcionado
-        - Token JWT inválido o expirado
-    - **500 Internal Server Error**:
-        - Error al conectar con Google Sheets
-        - Error de autenticación con Google
-        - Error al escribir en la hoja de cálculo
-        - Límites de la hoja excedidos
-        - Cualquier error inesperado durante el proceso
+    Agrega un nuevo registro a Google Sheets.
+    Requiere autenticación mediante token JWT.
 
     Nota:
-    - La tasa se agregará en la primera fila vacía encontrada en la hoja
+    - El registro se agregará en la primera fila vacía encontrada en la hoja
     - Se considera fila vacía aquella que no tiene datos o solo tiene espacios en blanco
     - Si no hay filas vacías, se agregará al final de la hoja
     """
@@ -194,25 +159,10 @@ async def update_tasa(
 ):
     """
     Actualiza una tasa específica y envía notificación.
+    Requiere autenticación mediante token JWT.
 
     Este endpoint actualiza el valor de una tasa en Google Sheets y
     envía una notificación a través de Zapier cuando la actualización es exitosa.
-
-    Parameters:
-    - **idOp**: ID de la operación a actualizar (path parameter)
-    - **tasa_update**: Objeto con:
-        - tasa (float): Nuevo valor de la tasa (debe ser positivo)
-        - email (str): Email del usuario que realiza la actualización
-
-    Returns:
-    - **dict**: Mensaje de éxito con:
-        - message (str): Descripción del resultado de la operación
-
-    Raises:
-    - **400**: Tasa negativa
-    - **401**: Token inválido
-    - **404**: ID de operación no encontrado
-    - **500**: Error en Zapier o error interno
     """
     try:
         # Validar tasa
@@ -280,17 +230,7 @@ async def delete_tasa(
 ):
     """
     Elimina una ID Operación específica de Google Sheets.
-
-    Parameters:
-    - **idOp**: ID de la operación a eliminar (debe ser positivo)
-
-    Returns:
-    - **dict**: Mensaje de éxito
-
-    Raises:
-    - **404**: ID de operación no encontrado
-    - **401**: Token inválido o expirado
-    - **500**: Error interno del servidor
+    Requiere autenticación mediante token JWT.
     """
     try:
         return delete_tasa_from_sheet(idOp)
