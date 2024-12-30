@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+*.pyo
+prueba-xepelin-446012-33bf2851413f.json
+.env

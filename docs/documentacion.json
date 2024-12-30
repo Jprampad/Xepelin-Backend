@@ -1,0 +1,310 @@
+{
+  "tasas": {
+    "get": {
+      "200": {
+        "description": "Lista de tasas con emails válidos obtenida exitosamente",
+        "content": {
+          "application/json": {
+            "example": [
+              {
+                "idOp": 1,
+                "tasa": 43.2,
+                "email": "usuario@ejemplo.com"
+              },
+              {
+                "idOp": 2,
+                "tasa": 38.5,
+                "email": "otro@ejemplo.com"
+              }
+            ]
+          }
+        }
+      },
+      "401": {
+        "description": "Token inválido o expirado",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": "Could not validate credentials"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "No se encontraron tasas o no hay tasas con emails válidos",
+        "content": {
+          "application/json": {
+            "examples": {
+              "no_rates": {
+                "summary": "No hay tasas",
+                "value": {
+                  "detail": "No se encontraron tasas"
+                }
+              },
+              "invalid_email": {
+                "summary": "Email inválido",
+                "value": {
+                  "detail": "No se encontraron tasas con emails válidos"
+                },
+                "examples": [
+                  {
+                    "idOp": 1000,
+                    "tasa": 0.01,
+                    "email": "hola"
+                  },
+                  {
+                    "idOp": 1001,
+                    "tasa": 0.02,
+                    "email": "correo"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Error interno del servidor",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": "Error interno del servidor"
+            }
+          }
+        }
+      }
+    },
+    "update": {
+      "200": {
+        "description": "Tasa actualizada o verificada",
+        "content": {
+          "application/json": {
+            "examples": {
+              "updated": {
+                "summary": "Tasa actualizada",
+                "value": {
+                  "message": "Tasa actualizada correctamente y notificación enviada"
+                }
+              },
+              "same_rate": {
+                "summary": "Tasa sin cambios",
+                "value": {
+                  "message": "La tasa para idOp 1 ya es la misma, no se actualizó."
+                }
+              }
+            }
+          }
+        }
+      },
+      "400": {
+        "description": "Datos inválidos",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": "La tasa no puede ser un número negativo"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Token inválido o expirado",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": "Could not validate credentials"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "ID de operación no encontrado",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": "idOp 1 no encontrado en Google Sheets"
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Error interno del servidor",
+        "content": {
+          "application/json": {
+            "examples": {
+              "zapier_error": {
+                "summary": "Error en Zapier",
+                "value": {
+                  "detail": "Error al enviar la notificación a Zapier"
+                }
+              },
+              "unexpected_error": {
+                "summary": "Error inesperado",
+                "value": {
+                  "detail": "Error inesperado: error de conexión"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "new": {
+      "200": {
+        "description": "Tasa agregada exitosamente",
+        "content": {
+          "application/json": {
+            "example": {"message": "Tasa agregada correctamente"}
+          }
+        }
+      },
+      "400": {
+        "description": "Datos inválidos",
+        "content": {
+          "application/json": {
+            "examples": {
+              "id_exists": {
+                "summary": "ID existente",
+                "value": {"detail": "El ID de operación 1234 ya existe"}
+              },
+              "invalid_id": {
+                "summary": "ID inválido",
+                "value": {"detail": "El ID de operación debe ser positivo"}
+              },
+              "invalid_rate": {
+                "summary": "Tasa inválida",
+                "value": {"detail": "La tasa debe ser un número decimal positivo"}
+              },
+              "invalid_email": {
+                "summary": "Email inválido",
+                "value": {"detail": "El valor no es un email válido"}
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "No autorizado",
+        "content": {
+          "application/json": {
+            "example": {"detail": "Could not validate credentials"}
+          }
+        }
+      },
+      "500": {
+        "description": "Error interno del servidor",
+        "content": {
+          "application/json": {
+            "examples": {
+              "sheets_error": {
+                "summary": "Error de Google Sheets",
+                "value": {"detail": "Error al acceder a Google Sheets: Invalid range"}
+              },
+              "auth_error": {
+                "summary": "Error de autenticación con Google",
+                "value": {"detail": "Error de autenticación con Google Sheets"}
+              },
+              "unexpected": {
+                "summary": "Error inesperado",
+                "value": {"detail": "Error al agregar la tasa: error inesperado"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "delete": {
+      "200": {
+        "description": "ID Operación eliminada exitosamente",
+        "content": {
+          "application/json": {
+            "example": {
+              "message": "Registro con ID Operación 1234 eliminado correctamente"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "No autorizado",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": "Could not validate credentials"
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "ID Operación no encontrada",
+        "content": {
+          "application/json": {
+            "examples": {
+              "no_data": {
+                "summary": "No hay datos",
+                "value": {
+                  "detail": "No se encontraron datos en la hoja"
+                }
+              },
+              "id_not_found": {
+                "summary": "ID no encontrado",
+                "value": {
+                  "detail": "No se encontró el registro con ID 1234"
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Error interno del servidor",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": "Error al eliminar la tasa: error inesperado"
+            }
+          }
+        }
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "200": {
+        "description": "Login exitoso",
+        "content": {
+          "application/json": {
+            "example": {
+              "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+              "token_type": "bearer"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Credenciales inválidas",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": "Usuario o contraseña incorrectos"
+            }
+          }
+        }
+      },
+      "422": {
+        "description": "Error de validación",
+        "content": {
+          "application/json": {
+            "example": {
+              "detail": [
+                {
+                  "loc": ["body", "username"],
+                  "msg": "field required",
+                  "type": "value_error.missing"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+} 

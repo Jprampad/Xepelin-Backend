@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+httpx
+pydantic[email]
+email-validator
+google-auth
+google-api-python-client
