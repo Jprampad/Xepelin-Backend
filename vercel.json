@@ -8,34 +8,8 @@
     ],
     "routes": [
         {
-            "src": "/api/login",
-            "dest": "main.py",
-            "methods": ["POST"],
-            "continue": true
-        },
-        {
-            "src": "/api/tasas",
-            "dest": "main.py",
-            "methods": ["GET", "POST"],
-            "continue": true
-        },
-        {
-            "src": "/api/tasas/(.*)",
-            "dest": "main.py",
-            "continue": true
-        },
-        {
-            "src": "/docs",
-            "dest": "main.py",
-            "continue": true
-        },
-        {
-            "src": "/openapi.json",
-            "dest": "main.py",
-            "continue": true
+            "src": "/(.*)",
+            "dest": "main.py"
         }
-    ],
-    "env": {
-        "PYTHONPATH": "."
-    }
+    ]
 } 
