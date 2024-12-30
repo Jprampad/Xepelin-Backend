@@ -31,4 +31,4 @@ app.include_router(tasa_router)
 
 @app.get("/")
 async def root():
-    return {"message": "API is running"}
+    return {"message": "API is running, check /docs for more information"}

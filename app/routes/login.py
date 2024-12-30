@@ -52,7 +52,3 @@ async def login(credentials: LoginRequest, response: Response):
         )    
     access_token = create_access_token(data={"sub": user["username"]})
     return {"access_token": access_token, "token_type": "bearer"}
-
-@router.post("/api/test-post")
-async def test_post(data: dict):
-    return {"received": data}
