@@ -249,14 +249,14 @@ def insert_tasa_in_sheet(tasa_data):
             body=body
         ).execute()
         
-        return {"message": "Tasa agregada correctamente"}
+        return {"message": "Registro agregado correctamente"}
         
     except HTTPException as he:
         raise he
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Error al agregar la tasa: {str(e)}"
+            detail=f"Error al agregar el registro: {str(e)}"
         ) 
 
 def delete_tasa_from_sheet(idOp: int):

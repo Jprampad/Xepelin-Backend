@@ -179,7 +179,7 @@ async def crear_tasa(
     except Exception as e:
         raise HTTPException(
             status_code=500,
-            detail=f"Error al agregar la tasa: {str(e)}"
+            detail=f"Error al agregar el registro: {str(e)}"
         ) 
         
 @router.post("/{idOp}", 
