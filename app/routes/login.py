@@ -52,5 +52,6 @@ async def login(credentials: LoginRequest):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Usuario o contraseña incorrectos",
             headers={"WWW-Authenticate": "Bearer"},
-        )    access_token = create_access_token(data={"sub": user["username"]})
+        )    
+        access_token = create_access_token(data={"sub": user["username"]})
     return {"access_token": access_token, "token_type": "bearer"}
