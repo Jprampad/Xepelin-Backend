@@ -5,11 +5,10 @@ from googleapiclient.errors import HttpError
 from fastapi import HTTPException
 
 # Credenciales
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-CREDENTIALS_FILENAME = 'prueba-xepelin-446012-33bf2851413f.json'
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+CREDENTIALS_FILENAME = os.getenv('CREDENTIALS_FILENAME')
 SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, CREDENTIALS_FILENAME)
-SPREADSHEET_ID = '169UYWpjH7S_-3zEPdKIIt2NhSQ8g9BF3arAwF7edONA'
-RANGE_NAME = 'tasas!A2:C9999'
+SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
 
 def authenticate_google_sheets():
     try:
@@ -17,7 +16,7 @@ def authenticate_google_sheets():
             available_files = os.listdir(BASE_DIR)
             raise HTTPException(
                 status_code=500,
-                detail=f"Archivo de credenciales no encontrado. Archivos disponibles: {available_files}"
+                detail=f"Archivo de credenciales no encontrado en: {SERVICE_ACCOUNT_FILE}. Archivos disponibles en {BASE_DIR}: {available_files}"
             )
             
         creds = service_account.Credentials.from_service_account_file(
