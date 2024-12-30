@@ -1,4 +1,5 @@
 {
+    "name": "Xepelin Back",
     "version": 2,
     "builds": [
         {
@@ -7,22 +8,6 @@
         }
     ],
     "routes": [
-        {
-            "src": "/api/login",
-            "methods": ["POST", "OPTIONS"],
-            "dest": "main.py",
-            "headers": {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "POST, OPTIONS",
-                "Access-Control-Allow-Headers": "Content-Type, Authorization",
-                "Access-Control-Allow-Credentials": "true",
-                "Access-Control-Max-Age": "86400"
-            },
-            "continue": true
-        },
-        {
-            "handle": "filesystem"
-        },
         {
             "src": "/(.*)",
             "dest": "main.py"
