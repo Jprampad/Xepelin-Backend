@@ -9,10 +9,16 @@ from app.utils.handlers import add_validation_exception_handler
 import os
 
 def create_app():
-    app = FastAPI()
+    app = FastAPI(
+        title="Xepelin Backend API",
+        description="API para gestión de tasas",
+        version="1.0.0"
+    )
     
-    # Configuración más específica de CORS
-    origins = os.getenv('CORS_ORIGINS')
+    # Configuración CORS
+    origins = os.getenv('CORS_ORIGINS', '["*"]')
+    if isinstance(origins, str):
+        origins = eval(origins)  # Convierte el string a lista
     
     app.add_middleware(
         CORSMiddleware,
@@ -25,7 +31,8 @@ def create_app():
     # Agregar manejador de excepciones
     add_validation_exception_handler(app)
     
-    app.include_router(login_router)
-    app.include_router(tasa_router)
+    # Agregar prefijo /api a todas las rutas
+    app.include_router(login_router, prefix="/api")
+    app.include_router(tasa_router, prefix="/api")
     
     return app
