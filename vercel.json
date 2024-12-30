@@ -9,13 +9,13 @@
     "routes": [
         {
             "src": "/api/login",
+            "methods": ["POST", "OPTIONS"],
             "dest": "main.py",
-            "methods": ["POST"],
-            "continue": true,
             "headers": {
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET,POST,PUT,DELETE,OPTIONS",
-                "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+                "Access-Control-Allow-Methods": "POST, OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type, Authorization",
+                "Access-Control-Allow-Credentials": "true"
             }
         },
         {
@@ -25,6 +25,7 @@
     ],
     "env": {
         "PYTHONPATH": ".",
-        "VERCEL_FORCE_NO_BUILD_CACHE": "1"
+        "VERCEL_FORCE_NO_BUILD_CACHE": "1",
+        "VERCEL_FORCE_NO_SSO": "1"
     }
 } 
