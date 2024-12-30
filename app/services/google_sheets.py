@@ -1,33 +1,38 @@
 import os
+import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from fastapi import HTTPException
 
-# Credenciales
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-CREDENTIALS_FILENAME = os.getenv('CREDENTIALS_FILENAME')
-SERVICE_ACCOUNT_FILE = os.path.join(BASE_DIR, CREDENTIALS_FILENAME)
+# Eliminar las variables que ya no usaremos
 SPREADSHEET_ID = os.getenv('SPREADSHEET_ID')
 
 def authenticate_google_sheets():
     try:
-        if not os.path.exists(SERVICE_ACCOUNT_FILE):
-            available_files = os.listdir(BASE_DIR)
+        # Obtener las credenciales desde la variable de entorno
+        credentials_json = os.getenv('GOOGLE_CREDENTIALS_JSON')
+        if not credentials_json:
             raise HTTPException(
                 status_code=500,
-                detail=f"Archivo de credenciales no encontrado en: {SERVICE_ACCOUNT_FILE}. Archivos disponibles en {BASE_DIR}: {available_files}"
+                detail="Variable de entorno GOOGLE_CREDENTIALS_JSON no encontrada"
             )
             
-        creds = service_account.Credentials.from_service_account_file(
-            SERVICE_ACCOUNT_FILE, 
+        # Convertir el string JSON a diccionario
+        credentials_info = json.loads(credentials_json)
+        
+        # Crear las credenciales desde el diccionario
+        creds = service_account.Credentials.from_service_account_info(
+            credentials_info,
             scopes=["https://www.googleapis.com/auth/spreadsheets"]
         )
+        
         return build('sheets', 'v4', credentials=creds)
-    except FileNotFoundError:
+        
+    except json.JSONDecodeError:
         raise HTTPException(
             status_code=500,
-            detail=f"Archivo de credenciales no encontrado en: {SERVICE_ACCOUNT_FILE}"
+            detail="Error al decodificar GOOGLE_CREDENTIALS_JSON. Asegúrate de que sea un JSON válido"
         )
     except Exception as e:
         raise HTTPException(
