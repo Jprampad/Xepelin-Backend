@@ -10,23 +10,19 @@ docs_path = Path(__file__).parent.parent / "docs" / "documentacion.json"
 with open(docs_path) as f:
     docs = json.load(f)
 
-router = APIRouter(
-    prefix="/api",
-    tags=["Autenticación"],
-    responses={401: {"description": "No autorizado"}}
-)
+router = APIRouter()
 
 class LoginResponse(Token):
     """Modelo de respuesta para el login exitoso"""
     access_token: str = Field(..., description="Token JWT para autenticación")
     token_type: str = Field("bearer", description="Tipo de token (siempre 'bearer')")
 
-@router.post("/login", 
+@router.post("/api/login", 
     response_model=LoginResponse,
     summary="Autenticación de usuario",
     responses=docs["auth"]["login"]
 )
-async def login(credentials: LoginRequest):
+async def login(credentials: LoginRequest, response: Response):
     """
     Endpoint para autenticar usuarios y obtener un token JWT.
 
@@ -47,7 +43,6 @@ async def login(credentials: LoginRequest):
     - **401**: Credenciales inválidas
     - **422**: Error de validación en los datos de entrada
     """
-    response.headers["Access-Control-Allow-Origin"] = "*"
     user = authenticate_user(credentials.username, credentials.password)
     if not user:
         raise HTTPException(
@@ -55,5 +50,9 @@ async def login(credentials: LoginRequest):
             detail="Usuario o contraseña incorrectos",
             headers={"WWW-Authenticate": "Bearer"},
         )    
-        access_token = create_access_token(data={"sub": user["username"]})
+    access_token = create_access_token(data={"sub": user["username"]})
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/api/test-post")
+async def test_post(data: dict):
+    return {"received": data}
